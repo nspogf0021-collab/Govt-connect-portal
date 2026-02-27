@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovtConnect - 100+ Exams, Scholarships & Documents Portal</title>
+    <style>
+        /* --- COMPLETE CSS STYLING --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --purple: #8b5cf6;
+            --dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo { font-size: 2rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
+        .logo span { color: #00d4ff; }
+
+        .search-wrapper { width: 100%; max-width: 700px; position: relative; }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-wrapper input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-wrapper input:focus { background: rgba(255,255,255,0.2); border-color: #00d4ff; box-shadow: 0 0 30px rgba(0,212,255,0.3); }
+
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: white; font-size: 1.2rem; }
+
+        /* FILTER TAGS */
+        .filter-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 5px; }
+
+        .filter-tag {
+            padding: 6px 15px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            border-color: transparent;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        /* MAIN CONTAINER */
+        .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
+
+        .stats-bar {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            color: white;
+            flex-wrap: wrap;
+        }
+
+        .stat-item { display: flex; align-items: center; gap: 8px; }
+        .stat-item strong { font-size: 1.2rem; color: #00d4ff; }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+
+        /* CARD STYLES */
+        .card {
+            background: var(--glass);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--card-color, var(--primary)); }
+
+        .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+
+        .card-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: white;
+            background: var(--card-color, var(--primary));
+        }
+
+        .card h3 { font-size: 1.1rem; color: #0f172a; margin-bottom: 5px; }
+        .card p { font-size: 0.85rem; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
+
+        .card-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: var(--card-color, var(--primary));
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* MODAL STYLES */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); overflow: auto; }
+
+        .modal-content { background: white; margin: 5% auto; padding: 0; border-radius: 20px; width: 90%; max-width: 850px; animation: slideUp 0.4s ease; }
+
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--modal-color, var(--primary)), var(--modal-secondary, var(--secondary)));
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .modal-header h2 { font-size: 1.5rem; margin-bottom: 5px; }
+        .modal-header p { opacity: 0.9; font-size: 0.95rem; }
+
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: white; cursor: pointer; transition: transform 0.3s; }
+        .close-btn:hover { transform: rotate(90deg); }
+
+        .modal-body { padding: 30px; max-height: 65vh; overflow-y: auto; }
+
+        .about-section { background: linear-gradient(135deg, #f8fafc, #e2e8f0); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+
+        .about-section h4 { color: var(--modal-color, var(--primary)); font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .about-section p { color: #334155; line-height: 1.7; font-size: 0.95rem; }
+
+        .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+
+        .detail-item { background: white; padding: 15px; border-radius: 10px; text-align: center; border: 2px solid var(--modal-color, var(--primary)); }
+        .detail-item .label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
+        .detail-item .value { font-size: 0.95rem; font-weight: 700; color: #0f172a; }
+
+        .info-section { margin-bottom: 20px; }
+        .info-section h4 { color: var(--modal-color, var(--primary)); font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .info-section ul { list-style: none; }
+        .info-section li { background: #f8fafc; padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid var(--modal-color, var(--primary)); font-size: 0.9rem; color: #334155; }
+
+        .no-results { text-align: center; padding: 80px 20px; color: white; display: none; }
+        .no-results h2 { margin-bottom: 10px; }
+        .no-results p { opacity: 0.7; }
+
+        footer { background: rgba(0,0,0,0.3); color: rgba(255,255,255,0.6); text-align: center; padding: 30px; margin-top: 50px; }
+
+        @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } .modal-content { margin: 10% auto; width: 95%; } .stats-bar { gap: 15px; } }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <div class="logo">🏛️ Govt<span>Connect</span> Portal</div>
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search 100+ Exams, Scholarships, Documents...">
+            </div>
+            <div class="filter-tags">
+                <span class="filter-tag active" data-filter="all">All</span>
+                <span class="filter-tag" data-filter="exam">Exams</span>
+                <span class="filter-tag" data-filter="scholarship">Scholarships</span>
+                <span class="filter-tag" data-filter="document">Documents</span>
+                <span class="filter-tag" data-filter="banking">Banking</span>
+                <span class="filter-tag" data-filter="defense">Defense</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-item">📚 <strong>50+</strong> Government Exams</div>
+            <div class="stat-item">🎓 <strong>30+</strong> Scholarships</div>
+            <div class="stat-item">📄 <strong>20+</strong> Documents</div>
+            <div class="stat-item">🔄 <strong>Daily</strong> Updates</div>
+        </div>
+
+        <div class="no-results" id="noResults">
+            <h2>🔍 No Results Found</h2>
+            <p>Try different keywords like "UPSC", "SSC", "Banking", "PAN", "Scholarship"</p>
+        </div>
+
+        <div class="card-grid" id="cardsContainer"></div>
+    </div>
+
+    <!-- MODAL POPUP -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle">Title</h2>
+                <p id="modalSubtitle">Subtitle</p>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 GovtConnect Portal - All Government Exams, Scholarships & Documents Information</p>
+    </footer>
+
+    <script>
+        /* ==================== DATABASE ==================== */
+        const rawDatabase = [
+
+// ===== GOVERNMENT DOCUMENTS =====
+{ category: "Document", title: "Aadhaar Card", subtitle: "UIDAI Identity Card", description: "Apply, update or download Aadhaar card for identity proof.", eligibility: "All Indian citizens", age: "No age limit", official: "https://uidai.gov.in" },
+{ category: "Document", title: "PAN Card", subtitle: "Permanent Account Number", description: "Apply for new PAN card or correction for tax purposes.", eligibility: "Indian citizens", age: "18+", official: "https://incometax.gov.in" },
+{ category: "Document", title: "Voter ID Card", subtitle: "Election Commission ID", description: "Apply for new voter ID or correction.", eligibility: "Indian citizens", age: "18+", official: "https://voters.eci.gov.in" },
+{ category: "Document", title: "Passport", subtitle: "Indian Passport", description: "Apply for new passport or renewal.", eligibility: "Indian citizens", age: "No limit", official: "https://passportindia.gov.in" },
+{ category: "Document", title: "Driving Licence", subtitle: "DL Application", description: "Apply for learner or permanent driving licence.", eligibility: "Indian citizens", age: "18+", official: "https://parivahan.gov.in" },
+{ category: "Document", title: "Income Certificate", subtitle: "Income Proof", description: "Apply for income certificate for scholarships.", eligibility: "State residents", age: "No limit", official: "State Portal" },
+{ category: "Document", title: "Caste Certificate", subtitle: "SC/ST/OBC Certificate", description: "Apply for caste certificate.", eligibility: "Eligible category", age: "No limit", official: "State Portal" },
+{ category: "Document", title: "EWS Certificate", subtitle: "Economically Weaker Section", description: "Apply for EWS certificate.", eligibility: "General category EWS", age: "No limit", official: "State Portal" },
+{ category: "Document", title: "Domicile Certificate", subtitle: "Residence Certificate", description: "Apply for state domicile.", eligibility: "State residents", age: "No limit", official: "State Portal" },
+{ category: "Document", title: "Birth Certificate", subtitle: "Municipal Birth", description: "Apply or download birth certificate.", eligibility: "Citizens", age: "Any", official: "Municipal Portal" },
+{ category: "Document", title: "Ration Card", subtitle: "Food Security Card", description: "Apply for new ration card.", eligibility: "Eligible families", age: "Family", official: "https://nfsa.gov.in" },
+{ category: "Document", title: "Ayushman Bharat Card", subtitle: "PMJAY Health Card", description: "Apply for Ayushman Bharat health card.", eligibility: "Eligible families", age: "No limit", official: "https://pmjay.gov.in" },
+
+// ===== SCHOLARSHIPS =====
+{ category: "Scholarship", title: "Pre-Matric Scholarship", subtitle: "SC/ST/OBC Students", description: "Scholarship for Class 9-10 students.", eligibility: "SC/ST/OBC students", age: "14-16 years", official: "https://scholarships.gov.in" },
+{ category: "Scholarship", title: "Post-Matric Scholarship", subtitle: "SC/ST/OBC Students", description: "Scholarship for Class 11 and above.", eligibility: "SC/ST/OBC students", age: "16-25 years", official: "https://scholarships.gov.in" },
+{ category: "Scholarship", title: "Merit-cum-Means Scholarship", subtitle: "General Category", description: "Scholarship for meritorious students from economically weaker sections.", eligibility: "General category with low income", age: "18-25 years", official: "https://scholarships.gov.in" },
+{ category: "Scholarship", title: "Minority Scholarship", subtitle: "Minority Communities", description: "Scholarship for students from minority communities.", eligibility: "Minority community students", age: "11th to PG", official: "https://scholarships.gov.in" },
+{ category: "Scholarship", title: "AICTE Pragati", subtitle: "Girl Students", description: "Financial support for girls in technical education.", eligibility: "Girls in diploma/degree", age: "Technical", official: "https://www.aicte-pragati-saksham-gov.in" },
+{ category: "Scholarship", title: "AICTE Saksham", subtitle: "Differently Abled", description: "Support for specially-abled technical students.", eligibility: "Divyang students", age: "Technical", official: "https://www.aicte-pragati-saksham-gov.in" },
+{ category: "Scholarship", title: "INSPIRE Scholarship", subtitle: "Science Students", description: "Scholarship for science students.", eligibility: "Top 1% in 12th Science", age: "UG Science", official: "https://online-inspire.gov.in" },
+{ category: "Scholarship", title: "PM Scholarship Scheme", subtitle: "Ex-Servicemen Wards", description: "Scholarship for children of ex-servicemen.", eligibility: "Children of ex-servicemen", age: "UG level", official: "https://ksb.gov.in" },
+{ category: "Scholarship", title: "NMMS", subtitle: "Economically Weaker", description: "Scholarship for Class 8 students.", eligibility: "Class 8 students", age: "School", official: "https://scholarships.gov.in" },
+{ category: "Scholarship", title: "Maulana Azad Fellowship", subtitle: "Minority Research", description: "Fellowship for minority research students.", eligibility: "PG/PhD", age: "Research", official: "https://scholarships.gov.in" },
+{ category: "Scholarship", title: "UGC NET JRF", subtitle: "Junior Research", description: "Fellowship for research scholars.", eligibility: "UGC NET Qualified", age: "Research", official: "https://ugcnet.nta.nic.in" },
+{ category: "Scholarship", title: "Post Matric Minority", subtitle: "Minority Students", description: "Scholarship for minority students.", eligibility: "Minority category", age: "11th to PG", official: "https://scholarships.gov.in" },
+
+// ===== CENTRAL GOVERNMENT EXAMS =====
+{ category: "Central Exam", title: "UGC NET", subtitle: "National Eligibility Test", description: "Eligibility test for Assistant Professor and JRF.", eligibility: "Postgraduate", age: "No limit (JRF 31)", official: "https://ugcnet.nta.nic.in" },
+{ category: "Central Exam", title: "CSIR NET", subtitle: "Science Research", description: "Eligibility for Lectureship and JRF in science.", eligibility: "MSc/Equivalent", age: "28 years (JRF)", official: "https://csirnet.nta.nic.in" },
+{ category: "Central Exam", title: "CTET", subtitle: "Teacher Eligibility", description: "Eligibility test for central school teachers.", eligibility: "D.El.Ed/B.Ed", age: "No limit", official: "https://ctet.nic.in" },
+{ category: "Central Exam", title: "NDA NA UPSC", subtitle: "National Defence Academy", description: "Entry to Armed Forces after 12th.", eligibility: "12th pass", age: "16.5-19.5 years", official: "https://upsc.gov.in" },
+{ category: "Central Exam", title: "EPFO SSA", subtitle: "Social Security Assistant", description: "Recruitment for SSA in EPFO.", eligibility: "Graduate", age: "18-27 years", official: "https://epfindia.gov.in" },
+{ category: "Central Exam", title: "EPFO EO/AO", subtitle: "Enforcement Officer", description: "Recruitment for EO/AO in EPFO.", eligibility: "Graduate", age: "21-30 years", official: "https://epfindia.gov.in" },
+{ category: "Central Exam", title: "FCI Manager", subtitle: "Food Corporation Manager", description: "Recruitment for Manager in FCI.", eligibility: "Graduate/Professional", age: "18-28 years", official: "https://fci.gov.in" },
+{ category: "Central Exam", title: "FCI Assistant", subtitle: "Food Corp Assistant", description: "Recruitment for Assistant Grade posts.", eligibility: "Graduate", age: "18-28 years", official: "https://fci.gov.in" },
+{ category: "Central Exam", title: "IB ACIO", subtitle: "Intelligence Bureau", description: "Recruitment for ACIO in IB.", eligibility: "Graduate", age: "18-27 years", official: "https://mha.gov.in" },
+{ category: "Central Exam", title: "CBI Sub Inspector", subtitle: "Central Bureau SI", description: "Recruitment for SI in CBI.", eligibility: "Graduate", age: "20-30 years", official: "https://cbi.gov.in" },
+{ category: "Central Exam", title: "ISRO Scientist", subtitle: "Space Research", description: "Recruitment for Scientist in ISRO.", eligibility: "Engineering Graduate", age: "28-35 years", official: "https://isro.gov.in" },
+{ category: "Central Exam", title: "DRDO CEPTAM", subtitle: "Defense Research", description: "Recruitment in DRDO.", eligibility: "10th/12th/Graduate", age: "18-30 years", official: "https://drdo.gov.in" },
+{ category: "Central Exam", title: "BARC OCES", subtitle: "Scientific Officer", description: "Recruitment for Scientific Officer.", eligibility: "Engineering/MSc", age: "26-28 years", official: "https://barc.gov.in" },
+{ category: "Central Exam", title: "GATE", subtitle: "Engineering Exam", description: "National level exam for MTech and PSU.", eligibility: "Engineering/Final year", age: "No limit", official: "https://gate.iitkgp.ac.in" },
+{ category: "Central Exam", title: "NEET UG", subtitle: "Medical Entrance", description: "Medical entrance for MBBS/BDS.", eligibility: "12th with PCB", age: "17+ years", official: "https://neet.nta.nic.in" },
+{ category: "Central Exam", title: "JEE Main", subtitle: "Engineering Entrance", description: "Engineering entrance for NITs/IIITs.", eligibility: "12th with PCM", age: "No limit", official: "https://jeemain.nta.nic.in" },
+
+// ===== RAILWAY EXAMS =====
+{ category: "Railway", title: "RRB NTPC", subtitle: "Non-Technical Popular", description: "Recruitment for Clerk, Station Master.", eligibility: "12th/Graduate", age: "18-33 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB Group D", subtitle: "Level 1 Posts", description: "Recruitment for Track Maintainer, Helper.", eligibility: "10th pass", age: "18-33 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB JE", subtitle: "Junior Engineer", description: "Recruitment for JE in Railways.", eligibility: "Diploma/Engineering", age: "18-33 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB ALP", subtitle: "Assistant Loco Pilot", description: "Recruitment for ALP posts.", eligibility: "ITI/Diploma", age: "18-30 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB Technician", subtitle: "Technical Posts", description: "Recruitment for various technician posts.", eligibility: "ITI/Diploma", age: "18-30 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB Paramedical", subtitle: "Medical Staff", description: "Recruitment for Staff Nurse, Paramedical.", eligibility: "Medical Qualification", age: "18-40 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB Ministerial", subtitle: "Teaching Posts", description: "Recruitment for ministerial categories.", eligibility: "Graduate/PG", age: "18-48 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRC Group D", subtitle: "Railway Recruitment", description: "Level 1 recruitment through RRC.", eligibility: "10th pass", age: "18-33 years", official: "https://www.rrcb.gov.in" },
+{ category: "Railway", title: "RRC Apprentice", subtitle: "Apprentice Training", description: "Apprentice training in railway zones.", eligibility: "10th + ITI", age: "15-24 years", official: "https://www.rrcb.gov.in" },
+{ category: "Railway", title: "RPF SI", subtitle: "Sub Inspector", description: "Recruitment for SI in RPF.", eligibility: "Graduate", age: "20-25 years", official: "https://rpf.indianrailways.gov.in" },
+{ category: "Railway", title: "RPF Constable", subtitle: "Constable", description: "Recruitment for Constable in RPF.", eligibility: "10th pass", age: "18-25 years", official: "https://rpf.indianrailways.gov.in" },
+{ category: "Railway", title: "RRB Pharmacist", subtitle: "Pharmacy Staff", description: "Recruitment for Pharmacist.", eligibility: "Diploma in Pharmacy", age: "20-35 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB Staff Nurse", subtitle: "Nursing Staff", description: "Recruitment for Staff Nurse.", eligibility: "BSc Nursing/GNM", age: "20-40 years", official: "https://www.rrbcdg.gov.in" },
+{ category: "Railway", title: "RRB Junior Translator", subtitle: "Hindi Translator", description: "Recruitment for Translator.", eligibility: "PG in Hindi/English", age: "18-30 years", official: "https://www.rrbcdg.gov.in" },
+
+// ===== STATE PSC EXAMS =====
+{ category: "State Exam", title: "UPPSC PCS", subtitle: "Uttar Pradesh Civil", description: "State civil services for UP.", eligibility: "Graduate", age: "21-40 years", official: "https://uppsc.up.nic.in" },
+{ category: "State Exam", title: "RPSC RAS", subtitle: "Rajasthan Administrative", description: "State civil services for Rajasthan.", eligibility: "Graduate", age: "21-40 years", official: "https://rpsc.rajasthan.gov.in" },
+{ category: "State Exam", title: "BPSC", subtitle: "Bihar Civil Services", description: "State civil services for Bihar.", eligibility: "Graduate", age: "20-37 years", official: "https://bpsc.bih.nic.in" },
+{ category: "State Exam", title: "MPSC", subtitle: "Maharashtra Civil", description: "State civil services for Maharashtra.", eligibility: "Graduate", age: "21-38 years", official: "https://mpsc.gov.in" },
+{ category: "State Exam", title: "TNPSC Group 1", subtitle: "Tamil Nadu Civil", description: "Top level state admin in TN.", eligibility: "Graduate", age: "21-32 years", official: "https://tnpsc.gov.in" },
+{ category: "State Exam", title: "WBPSC", subtitle: "West Bengal Civil", description: "State civil services for WB.", eligibility: "Graduate", age: "21-36 years", official: "https://psc.wb.gov.in" },
+{ category: "State Exam", title: "MPPSC", subtitle: "Madhya Pradesh Civil", description: "State civil services for MP.", eligibility: "Graduate", age: "21-40 years", official: "https://mppsc.mp.gov.in" },
+{ category: "State Exam", title: "HPSC", subtitle: "Haryana Civil", description: "State civil services for Haryana.", eligibility: "Graduate", age: "21-42 years", official: "https://hpsc.gov.in" },
+{ category: "State Exam", title: "GPSC", subtitle: "Gujarat Civil", description: "State civil services for Gujarat.", eligibility: "Graduate", age: "21-35 years", official: "https://gpsc.gujarat.gov.in" },
+{ category: "State Exam", title: "APPSC Group 1", subtitle: "Andhra Pradesh Civil", description: "State admin for AP.", eligibility: "Graduate", age: "21-42 years", official: "https://psc.ap.gov.in" },
+{ category: "State Exam", title: "TSPSC Group 1", subtitle: "Telangana Civil", description: "State admin for Telangana.", eligibility: "Graduate", age: "21-44 years", official: "https://tspsc.gov.in" },
+{ category: "State Exam", title: "Kerala PSC", subtitle: "Kerala Recruitment", description: "State recruitment for Kerala.", eligibility: "Graduate/12th", age: "18-40 years", official: "https://keralapsc.gov.in" },
+{ category: "State Exam", title: "KPSC", subtitle: "Karnataka Civil", description: "State civil services for Karnataka.", eligibility: "Graduate", age: "21-35 years", official: "https://kpsc.kar.nic.in" },
+{ category: "State Exam", title: "JPSC", subtitle: "Jharkhand Civil", description: "State civil services for Jharkhand.", eligibility: "Graduate", age: "21-35 years", official: "https://jpsc.gov.in" },
+
+// ===== OLYMPIADS =====
+{ category: "Olympiad", title: "IOQM", subtitle: "Math Olympiad", description: "First stage of Math Olympiad.", eligibility: "Class 8-12", age: "Under 20", official: "https://www.mtai.org.in" },
+{ category: "Olympiad", title: "INMO", subtitle: "National Math", description: "Second stage Math Olympiad.", eligibility: "Qualified IOQM", age: "Under 20", official: "https://www.hbcse.tifr.res.in" },
+{ category: "Olympiad", title: "IMO", subtitle: "International Math", description: "International math competition.", eligibility: "Selected toppers", age: "Under 20", official: "https://www.imo-official.org" },
+{ category: "Olympiad", title: "NSEJS", subtitle: "Junior Science", description: "Foundation olympiad for Class 9-10.", eligibility: "Class 9-10", age: "Under 15", official: "https://www.iapt.org.in" },
+{ category: "Olympiad", title: "NSEP", subtitle: "Physics Olympiad", description: "First stage Physics Olympiad.", eligibility: "Class 11-12", age: "Under 20", official: "https://www.iapt.org.in" },
+{ category: "Olympiad", title: "NSEC", subtitle: "Chemistry Olympiad", description: "First stage Chemistry Olympiad.", eligibility: "Class 11-12", age: "Under 20", official: "https://www.iapt.org.in" },
+{ category: "Olympiad", title: "NSEB", subtitle: "Biology Olympiad", description: "First stage Biology Olympiad.", eligibility: "Class 11-12", age: "Under 20", official: "https://www.iapt.org.in" },
+{ category: "Olympiad", title: "NSEI", subtitle: "Informatics Olympiad", description: "First stage Informatics Olympiad.", eligibility: "Class 8-12", age: "Under 20", official: "https://www.iarcs.org.in" },
+{ category: "Olympiad", title: "INOI", subtitle: "National Informatics", description: "Second stage Informatics Olympiad.", eligibility: "Qualified NSEI", age: "Under 20", official: "https://www.iarcs.org.in" },
+{ category: "Olympiad", title: "SOF IMO", subtitle: "Math  Olympiad", description: "Private math olympiad.", eligibility: "Class 1-12", age: "School", official: "https://www.sofworld.org" },
+{ category: "Olympiad", title: "SOF NSO", subtitle: "Science Olympiad", description: "Private science olympiad.", eligibility: "Class 1-12", age: "School", official: "https://www.sofworld.org" },
+{ category: "Olympiad", title: "SOF NCO", subtitle: "Cyber Olympiad", description: "Private cyber olympiad.", eligibility: "Class 1-12", age: "School", official: "https://www.sofworld.org" },
+
+// ===== BANKING EXAMS ======
+{ category: "Banking", title: "IBPS PO", subtitle: "Probationary Officer", description: "Recruitment for PO in Public Sector Banks.", eligibility: "Graduate", age: "20-30 years", official: "https://www.ibps.in" },
+{ category: "Banking", title: "IBPS Clerk", subtitle: "Clerical Cadre", description: "Recruitment for Clerks in Banks.", eligibility: "Graduate", age: "20-28 years", official: "https://www.ibps.in" },
+{ category: "Banking", title: "SBI PO", subtitle: "State Bank PO", description: "Recruitment of PO in SBI.", eligibility: "Graduate", age: "21-30 years", official: "https://sbi.co.in" },
+{ category: "Banking", title: "SBI Clerk", subtitle: "Junior Associate", description: "Recruitment of Clerk in SBI.", eligibility: "Graduate", age: "20-28 years", official: "https://sbi.co.in" },
+{ category: "Banking", title: "RBI Grade B", subtitle: "Officer Grade B", description: "Recruitment of Grade B in RBI.", eligibility: "Graduate 60%", age: "21-30 years", official: "https://rbi.org.in" },
+{ category: "Banking", title: "RBI Assistant", subtitle: "RBI Staff", description: "Recruitment of Assistants in RBI.", eligibility: "Graduate", age: "20-28 years", official: "https://rbi.org.in" },
+{ category: "Banking", title: "IBPS RRB PO", subtitle: "RRB Probationary", description: "Officer Scale I in Regional Rural Banks.", eligibility: "Graduate", age: "18-30 years", official: "https://www.ibps.in" },
+{ category: "Banking", title: "IBPS RRB Clerk", subtitle: "RRB Office Assistant", description: "Office Assistant in RRBs.", eligibility: "Graduate", age: "18-28 years", official: "https://www.ibps.in" },
+{ category: "Banking", title: "IBPS SO", subtitle: "Specialist Officer", description: "IT, HR, Marketing specialist roles.", eligibility: "Professional degree", age: "20-30 years", official: "https://www.ibps.in" },
+{ category: "Banking", title: "SBI SO", subtitle: "Specialist Officer", description: "Specialist roles in SBI.", eligibility: "Professional degree", age: "21-35 years", official: "https://sbi.co.in" },
+{ category: "Banking", title: "NABARD Grade A", subtitle: "Assistant Manager", description: "Recruitment for Assistant Manager.", eligibility: "Graduate/PG", age: "21-30 years", official: "https://nabard.org" },
+{ category: "Banking", title: "NABARD Grade B", subtitle: "Manager", description: "Recruitment for Manager.", eligibility: "Postgraduate", age: "25-32 years", official: "https://nabard.org" },
+{ category: "Banking", title: "LIC AAO", subtitle: "Administrative Officer", description: "Recruitment of AAO in LIC.", eligibility: "Graduate", age: "21-30 years", official: "https://licindia.in" },
+{ category: "Banking", title: "LIC ADO", subtitle: "Apprentice Officer", description: "Recruitment for ADO.", eligibility: "Graduate", age: "21-30 years", official: "https://licindia.in" },
+{ category: "Banking", title: "NIACL AO", subtitle: "Administrative Officer", description: "Recruitment for AO in NIACL.", eligibility: "Graduate", age: "21-30 years", official: "https://newindia.co.in" },
+{ category: "Banking", title: "NIACL Assistant", subtitle: "Assistant", description: "Recruitment for Assistant.", eligibility: "Graduate", age: "21-30 years", official: "https://newindia.co.in" },
+{ category: "Banking", title: "UIIC AO", subtitle: "Administrative Officer", description: "Recruitment for AO.", eligibility: "Graduate", age: "21-30 years", official: "https://uiic.co.in" },
+{ category: "Banking", title: "ECGC PO", subtitle: "Probationary Officer", description: "Recruitment for PO.", eligibility: "Graduate", age: "21-30 years", official: "https://ecgc.in" },
+{ category: "Banking", title: "IDBI Executive", subtitle: "Executive", description: "Recruitment for Executive.", eligibility: "Graduate", age: "20-25 years", official: "https://idbibank.in" },
+{ category: "Banking", title: "IDBI Assistant Manager", subtitle: "Asst Manager", description: "Recruitment for Asst Manager.", eligibility: "Graduate", age: "21-28 years", official: "https://idbibank.in" },
+
+// ===== DEFENSE EXAMS =====
+{ category: "Defense", title: "UPSC NDA & NA", subtitle: "National Defense Academy", description: "Entry to Army, Navy, Air Force.", eligibility: "12th pass", age: "16.5-19.5 years", official: "https://upsc.gov.in" },
+{ category: "Defense", title: "UPSC CDS", subtitle: "Combined Defense", description: "Graduate entry to Armed Forces.", eligibility: "Graduate", age: "19-25 years", official: "https://upsc.gov.in" },
+{ category: "Defense", title: "AFCAT", subtitle: "Air Force Admission", description: "Entry for Flying, Technical branches.", eligibility: "Graduate", age: "20-26 years", official: "https://afcat.cdac.in" },
+{ category: "Defense", title: "Indian Army TES", subtitle: "Technical Entry", description: "Direct entry for technical branch.", eligibility: "12th PCM 60%", age: "16.5-19.5 years", official: "https://joinindianarmy.nic.in" },
+{ category: "Defense", title: "Indian Navy SSR", subtitle: "Senior Secondary", description: "Recruitment for Navy sailors.", eligibility: "12th PCM", age: "17-21 years", official: "https://joinindiannavy.gov.in" },
+{ category: "Defense", title: "Indian Navy AA", subtitle: "Artificer Apprentice", description: "Technical sailor entry.", eligibility: "12th PCM", age: "17-21 years", official: "https://joinindiannavy.gov.in" },
+{ category: "Defense", title: "Air Force Agniveer", subtitle: "Agnipath Scheme", description: "Recruitment under Agnipath.", eligibility: "12th/Diploma", age: "17.5-21 years", official: "https://agnipathvayu.cdac.in" },
+{ category: "Defense", title: "Army Agniveer", subtitle: "Agnipath", description: "Soldier recruitment.", eligibility: "10th/12th", age: "17.5-21 years", official: "https://joinindianarmy.nic.in" },
+{ category: "Defense", title: "Navy Agniveer", subtitle: "Agnipath", description: "Navy recruitment.", eligibility: "10th/12th", age: "17.5-21 years", official: "https://joinindiannavy.gov.in" },
+{ category: "Defense", title: "CAPF AC", subtitle: "Central Armed Police", description: "Recruitment for AC in CAPFs.", eligibility: "Graduate", age: "20-25 years", official: "https://upsc.gov.in" },
+{ category: "Defense", title: "Coast Guard AC", subtitle: "Officer Entry", description: "Officer entry in Coast Guard.", eligibility: "Graduate", age: "21-25 years", official: "https://joinindiancoastguard.cdac.in" },
+{ category: "Defense", title: "Coast Guard Navik", subtitle: "General Duty", description: "Sailor entry in Coast Guard.", eligibility: "10th/12th", age: "18-22 years", official: "https://joinindiancoastguard.cdac.in" },
+{ category: "Defense", title: "Territorial Army", subtitle: "Part-Time Army", description: "For working professionals.", eligibility: "Graduate/Employed", age: "18-42 years", official: "https://jointerritorialarmy.gov.in" },
+{ category: "Defense", title: "Military Nursing", subtitle: "MNS Officer", description: "Nursing officers in Army.", eligibility: "BSc Nursing", age: "21-35 years", official: "https://joinindianarmy.nic.in" },
+{ category: "Defense", title: "Army JAG", subtitle: "Judge Advocate", description: "Law graduate entry.", eligibility: "LLB 55%", age: "21-27 years", official: "https://joinindianarmy.nic.in" },
+
+// ===== UPSC EXAMS =====
+{ category: "UPSC", title: "UPSC Civil Services", subtitle: "IAS/IPS", description: "India's top admin exam for IAS, IPS, IFS.", eligibility: "Graduate", age: "21-32 years", official: "https://upsc.gov.in" },
+{ category: "UPSC", title: "UPSC IFoS", subtitle: "Indian Forest Service", description: "Forest and environmental admin.", eligibility: "Science/Engineering PG", age: "21-32 years", official: "https://upsc.gov.in" },
+{ category: "UPSC", title: "UPSC EPFO", subtitle: "Enforcement Officer", description: "Officer in EPFO.", eligibility: "Graduate", age: "Up to 30 years", official: "https://upsc.gov.in" },
+{ category: "UPSC", title: "UPSC CAPF AC", subtitle: "Central Armed Police", description: "Officer for BSF, CRPF, CISF.", eligibility: "Graduate", age: "20-25 years", official: "https://upsc.gov.in" },
+{ category: "UPSC", title: "UPSC ESE", subtitle: "Engineering Services", description: "Engineers in central govt.", eligibility: "Engineering Graduate", age: "21-30 years", official: "https://upsc.gov.in" },
+{ category: "UPSC", title: "UPSC Geologist", subtitle: "Geo-Scientist", description: "Geologists for GSI.", eligibility: "PG in Geology", age: "21-32 years", official: "https://upsc.gov.in" },
+{ category: "UPSC", title: "UPSC CMS", subtitle: "Medical Services", description: "Medical officers in govt.", eligibility: "MBBS", age: "Up to 32 years", official: "https://upsc.gov.in" }
+
+];
+
+        /* ==================== AUTO-FIX FUNCTION ==================== */
+        function normalizeData(data) {
+            const colors = ["#4f46e5", "#ec4899", "#10b981", "#f59e0b", "#ef4444", "#06b6d4", "#8b5cf6", "#7c3aed"];
+            return data.map((item, index) => {
+                const id = item.id || item.title.toLowerCase().replace(/\s+/g, '_');
+                const color = item.color || colors[index % colors.length];
+                const subcat = item.subcat || item.category;
+                return {
+                    id: id,
+                    title: item.title,
+                    subtitle: item.subtitle,
+                    description: item.description,
+                    eligibility: item.eligibility || "As per guidelines",
+                    age: item.age || "18+ Years",
+                    official: item.official || "Official Website",
+                    selection: item.selection || "As per notification",
+                    salary: item.salary || "Government Pay Matrix",
+                    attempts: item.attempts || "Limited",
+                    color: color,
+                    subcat: subcat,
+                    category: item.category
+                };
+            });
+        }
+
+        // Initialize
+        const database = normalizeData(rawDatabase);
+
+        /* ================= RENDER CARDS ================= */
+        function renderCards(data) {
+            const container = document.getElementById("cardsContainer");
+            container.innerHTML = "";
+            if (data.length === 0) {
+                document.getElementById("noResults").style.display = "block";
+                return;
+            } else {
+                document.getElementById("noResults").style.display = "none";
+            }
+            data.forEach(item => {
+                const card = `
+                    <div class="card" style="--card-color:${item.color}">
+                        <div class="card-badge">${item.subcat}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.subtitle}</p>
+                        <button class="card-btn" onclick="openModal('${item.id}')">View Details</button>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        /* ================= SEARCH ================= */
+        document.getElementById("searchInput").addEventListener("input", function() {
+            const searchValue = this.value.toLowerCase();
+            const filtered = database.filter(item =>
+                item.title.toLowerCase().includes(searchValue) ||
+                item.subtitle.toLowerCase().includes(searchValue) ||
+                item.category.toLowerCase().includes(searchValue) ||
+                item.description.toLowerCase().includes(searchValue)
+            );
+            renderCards(filtered);
+        });
+
+        /* ================= MODAL ================= */
+        /* ================= MODAL ================= */
+function openModal(id) {
+    const item = database.find(exam => exam.id === id);
+    if (!item) return;
+    
+    document.getElementById("modalTitle").innerText = item.title;
+    document.getElementById("modalSubtitle").innerText = item.subtitle;
+    document.querySelector(".modal-header").style.setProperty("--modal-color", item.color);
+    
+    document.getElementById("modalBody").innerHTML = `
+        <div class="about-section">
+            <h4>📖 About</h4>
+            <p>${item.description}</p>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="label">Eligibility</div>
+                <div class="value">${item.eligibility || "As per guidelines"}</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Age Limit</div>
+                <div class="value">${item.age || "18+ Years"}</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Official Website</div>
+                <div class="value"><a href="${item.official || '#'}" target="_blank">Click Here</a></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h4>🔗 Apply Here</h4>
+            <ul>
+                <li><a href="${item.official || '#'}" target="_blank">${item.official || "Official Website"}</a></li>
+            </ul>
+        </div>
+    `;
+    
+    document.getElementById("modal").style.display = "block";
+}
+
+        /* ================= INITIAL LOAD ================= */
+        document.addEventListener("DOMContentLoaded", function() {
+            renderCards(database);
+        });
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("modal")) {
+                closeModal();
+            }
+        }
+        // Close modal when clicking X button
+document.querySelector(".close-btn").addEventListener("click", function() {
+    document.getElementById("modal").style.display = "none";
+});
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+    </script>
+</body>
+</html>
+
